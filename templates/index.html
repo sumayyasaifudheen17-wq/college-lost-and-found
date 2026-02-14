@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>College Lost & Found</title>
+</head>
+<body>
+
+<h2>Lost & Found Portal</h2>
+
+<form method="POST">
+    <select name="type">
+        <option value="Lost">Lost</option>
+        <option value="Found">Found</option>
+    </select><br><br>
+
+    <input name="item_name" placeholder="Item name" required><br><br>
+    <input name="location" placeholder="Location" required><br><br>
+    <input name="description" placeholder="Description"><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<hr>
+
+<h3>Lost Items</h3>
+<ul>
+{% for item in lost_items %}
+    <li>
+        {{ item.item_name }} — {{ item.location }} — {{ item.description }}
+    </li>
+{% else %}
+    <li>No lost items reported.</li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<h3>Found Items</h3>
+<ul>
+{% for item in found_items %}
+    <li>
+        {{ item.item_name }} — {{ item.location }} — {{ item.description }}
+    </li>
+{% else %}
+    <li>No found items reported.</li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<h3>Possible Matches</h3>
+
+{% for m in matches %}
+    <p>
+        <strong>{{ m.item }}</strong><br>
+        Lost: {{ m.lost_desc|safe }}<br>
+        Found: {{ m.found_desc|safe }}<br>
+        <a href="/resolve/{{ m.lost_id }}/{{ m.found_id }}">
+            Mark as Resolved
+        </a>
+    </p>
+    <hr>
+{% else %}
+    <p>No matches found yet.</p>
+{% endfor %}
+
+</body>
+</html>
